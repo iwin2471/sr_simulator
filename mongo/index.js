@@ -16,9 +16,9 @@ var UsersSchema = mongoose.Schema({
 });
 
 
-require('./err')(UserSchema, rndString);
+require('./err')(UsersSchema, rndString);
 
-var Users = mongoose.model("users", UserSchema);
+var Users = mongoose.model("users", UsersSchema);
 
 exports.Users = Users;
 

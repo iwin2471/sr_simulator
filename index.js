@@ -5,7 +5,6 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookie from 'cookie';
 import path from 'path';
-import bodyParser from 'body-parser';
 import randomstring from 'randomstring';
 import fs from 'fs';
 let debug = require('debug')('dicon:server');
@@ -33,13 +32,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
-app.use(passport.session());
 
 //router setting
-var index = require('./routes/index')(router);
-var users = require('./routes/users')(router, Users);
-var auth = require('./routes/auth')(router, Users);
+var index = require('./routes/index')(express.Router());
+var users = require('./routes/users')(express.Router(), Users);
+var auth = require('./routes/auth')(express.Router(), Users);
 
 //router setting
 app.use('/', index);

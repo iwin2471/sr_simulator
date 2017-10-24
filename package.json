@@ -1,15 +1,16 @@
 {
-  "name": "sr_simulator_backend",
+  "name": "sr_simulator",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "cross-env nodemon --ignore 'public/js/*' --exec babel-node ."
   },
   "dependencies": {
     "Q": "*",
     "async": "*",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
+    "cross-env": "^5.1.0",
     "debug": "~2.2.0",
     "ejs": "~2.4.1",
     "express": "~4.13.4",
@@ -31,8 +32,5 @@
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1"
-  },
-  "scripts": {
-    "start": "cross-env nodemon --ignore 'public/js/*' --exec babel-node ."
   }
 }

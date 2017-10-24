@@ -1,20 +1,15 @@
 module.exports = (router, Users, passport) =>{
-  router.post('/signup', (req, res) => {
-    var params = ['id', 'passwd', 'nick_name'];
-
-    if(check_param(req.body, params)){
+  router.post('/signup', async (req, res) => {
       const data = req.body;
       const new_user = new Users(data);
-
       try{
-        var result = await new_trainer.save();
+        var result = await new_user.save();
       }catch(e){
         if(e instanceof user_duplicate) return res.status(409).json({message:"already exist"});
         if(e instanceof ValidationError) return res.status(400).json({message: e.message});
+        if(e instanceof paramsError) return res.status(400).json({message: e.message});
       }
-    }else{
-      return res.status(400).send("param missing or null");
-    }
+      return res.status(200).json(result);
   })
 
   .post('/signin', (req,res)=>{
