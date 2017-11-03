@@ -14,11 +14,12 @@ let router = express.Router();
 
 //module setting
 import {Users} from './mongo';
+let passport = require('./passport')(Users);
 
 //function
 require('./func');
 
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 4000;
 
 //set engin
 app.set('port', port);
@@ -32,11 +33,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //router setting
 var index = require('./routes/index')(express.Router());
 var users = require('./routes/users')(express.Router(), Users);
-var auth = require('./routes/auth')(express.Router(), Users);
+var auth = require('./routes/auth')(express.Router(), Users, passport);
 
 //router setting
 app.use('/', index);

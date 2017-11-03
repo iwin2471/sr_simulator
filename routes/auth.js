@@ -2,6 +2,7 @@ module.exports = (router, Users, passport) =>{
   router.post('/signup', async (req, res) => {
       const data = req.body;
       const new_user = new Users(data);
+      console.log(new_user);
       try{
         var result = await new_user.save();
       }catch(e){
@@ -12,15 +13,8 @@ module.exports = (router, Users, passport) =>{
       return res.status(200).json(result);
   })
 
-  .post('/signin', (req,res)=>{
-    var params = ['id', 'passwd'];
-    if(check_param(req.body, params)){
-      Users.findOne({id: req.body.id, passwd: req.body.passwd}, {__v:0, _id: 0, passwd: 0}, (err, user)=>{
-        if(err) return res.status(500).send("DB err");
-        if(user) return res.status(200).json(user);
-        else return res.status(404).send("incorrect id or passwd");
-      });
-    }else return res.status(400).send("param missing or null");
+  .post('/signin', passport.authenticate('local'), (req,res)=>{
+     return res.status(200).send(req.session.passport.user);
   })
 
   .get('/auto/:token', (req, res)=>{
