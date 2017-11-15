@@ -1,5 +1,5 @@
 {
-  "name": "sr_simulator_backend",
+  "name": "sr_simulator",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "async": "*",
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
+    "cross-env": "^5.1.0",
     "debug": "~2.2.0",
     "ejs": "~2.4.1",
     "express": "~4.13.4",
@@ -19,12 +20,12 @@
     "passport": "*",
     "passport-facebook-token": "*",
     "passport-github-token": "*",
+    "passport-local": "^1.0.0",
     "passport-twitter-token": "*",
     "randomstring": "*",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-plugin-transform-function-bind": "^6.22.0",
