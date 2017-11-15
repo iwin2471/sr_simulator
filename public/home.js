@@ -77,9 +77,9 @@ function init(){
   document.querySelector(".Hour").textContent = Number(hours%12)+":00";
   document.querySelector("#dateText").textContent="Day "+Number(Math.floor(hours/12)+1);
   console.log(document.querySelector("#dateText").textContent);
-  if((Math.floor(hours/12)+1)%3===0){
+  /*if((Math.floor(hours/12)+1)%3===0){
     window.location.href = "episode"+(Math.floor(hours/12)+1)/3+".html";
-  }
+  }*/
 
   // 1분이 지날때마다 한시간이 지나감
   startTime = setInterval(function(){
@@ -114,8 +114,9 @@ function init(){
 
   // 카메라 구현
   camera = new THREE.PerspectiveCamera(45, WIDTH/HEIGHT, 0.1, 10000);
-  camera.position.set(0, 75, 125);
-  camera.rotation.x = -Math.PI/6;
+  camera.position.set(0, 130, 100);
+  //camera.rotation.x = -Math.PI/6;
+  camera.lookAt(fullPlayer);
   scene.add(camera);
 
   fullPlayer.add(camera);
@@ -125,7 +126,8 @@ function init(){
   controls.enableKeys = false;
   controls.enableZoom = false;
   controls.enablePan = false;
-  controls.maxPolarAngle = Math.PI*0.5;
+  controls.maxPolarAngle = Math.PI/6;
+  controls.minPolarAngle = Math.PI/6;
 
   // 화면 반응형
   window.addEventListener( 'resize', onWindowResize, false );
@@ -176,11 +178,35 @@ function init(){
   var ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
   scene.add(ambientLight);
 
-  light = new THREE.PointLight(0xffffff, 0.5, 10000);
-  light.position.set(0, 70, 200);
-  light.castShadow = true;
-  light.shadow.camera.near = 0.1;
-  light.shadow.camera.far = 10000;
+  // light = new THREE.PointLight(0xffffff, 0.5, 10000);
+  // light.position.set(0, 100, 200);
+  // light.castShadow = true;
+  // light.shadow.camera.near = 0.1;
+  // light.shadow.camera.far = 10000;
+  // scene.add(light);
+
+  // light = new THREE.DirectionalLight(0xffffff, 0.5);
+  // light.position.set(0, 400, 200);
+  // light.castShadow = true;
+  // light.shadow.darkness = 0.8;
+  // light.shadow.camera.near = 200;
+  // light.shadow.camera.far = 1600;
+  // light.shadowCameraLeft = -300;
+  // light.shadowCameraBottom =  -400;
+  // light.shadowCameraRight = 500;
+  // light.shadowCameraTop = 500;
+
+  light = new THREE.SpotLight( 0xffffff, 0.5 );
+	light.position.set(0, 400, 200);
+	light.lookAt(scene.position);
+	light.penumbra = 0.05;
+	light.decay = 2;
+	light.distance = 10000;
+	light.castShadow = true;
+	light.shadow.mapSize.width = 1024;
+	light.shadow.mapSize.height = 1024;
+	light.shadow.camera.near = 10;
+	light.shadow.camera.far = 1600;
   scene.add(light);
 
   // 플레이어 구현
@@ -383,6 +409,12 @@ function init(){
     object.scale.set(0.3, 0.3, 0.3);
     object.rotation.y = -Math.PI/2;
     object.position.set(-20, 15, 200);
+    object.traverse(function(child){
+      if(child instanceof THREE.Mesh){
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
     scene.add(object);
   })
 
@@ -661,7 +693,7 @@ function render(){
       localStorage.setItem("playerX", playerPos.x);
       localStorage.setItem("playerY", playerPos.y);
       localStorage.setItem("playerZ", playerPos.z);
-      window.location.href = "tableTennis.html";
+      window.location.href = "/tableTennis";
     }else if(playerPos.distanceTo(tableTennis.position) >= 80){
       firstVisitTennis = true;
     }
@@ -718,7 +750,7 @@ function initStats() {
 
 // 마우스 클릭 좌표 구함
 function onMouseClick(event){
-  action.reset();
+  //action.reset();
   if(codingStarted === false){
     event.preventDefault();
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;

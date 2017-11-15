@@ -40,9 +40,13 @@ app.use(passport.session());
 var index = require('./routes/index')(express.Router());
 var users = require('./routes/users')(express.Router(), Users);
 var auth = require('./routes/auth')(express.Router(), Users, passport);
+var tableTennis = require('./routes/tableTennis')(express.Router(), Users);
+const game = require('./routes/game')(express.Router(), Users);
 
 //router setting
 app.use('/', index);
+app.use('/game', game);
+app.use('/tableTennis', tableTennis);
 app.use('/users', users);
 app.use('/auth', auth);
 
