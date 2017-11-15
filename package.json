@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "cross-env nodemon --ignore 'public/js/*' --exec babel-node ."
   },
   "dependencies": {
     "Q": "*",
@@ -31,8 +31,5 @@
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-3": "^6.24.1"
-  },
-  "scripts": {
-    "start": "cross-env nodemon --ignore 'public/js/*' --exec babel-node ."
   }
 }
