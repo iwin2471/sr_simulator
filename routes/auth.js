@@ -17,7 +17,7 @@ module.exports = (router, Users, passport) =>{
   })
 
   .post('/signin', passport.authenticate('local'), (req,res)=>{
-     return res.status(200).send(req.session.passport.user);
+     res.redirect('/'); 
   })
 
   .get('/auto/:token', (req, res)=>{
