@@ -317,14 +317,14 @@ function loop() {
         }
         // 서버로 sendHealthData를 주고 서버에서 Health 데이터에 값 추가하기
 
-        window.location.href = "home.html";
+        window.location.href = "/";
       }
       else if(aiplayerScore === 7){
         document.getElementById("scoreboard").textContent = "You Lose"
         var sendHealthData=-10;
         // 서버로 sendHealthData를 주고 서버에서 Health 데이터에 값 추가하기
-        
-        window.location.href = "home.html";
+
+        window.location.href = "/";
       }
 
       respawnBall();
