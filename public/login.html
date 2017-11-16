@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SRS Login</title>
+    <script src="js/three.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/FontLoader.js"></script>
+    <link rel="stylesheet" href="login.css">
+  </head>
+  <body>
+    <div id="Stats-output">
+
+    </div>
+
+    <div id="WebGL-output">
+
+    </div>
+
+    <!-- 로그인 -->
+    <div class="login-page">
+      <div class="form">
+        <form class="register-form" method="POST" action="/auth/signup">
+          <input name="nick_name" type="text" placeholder="nick_name"/>
+          <input name="id" type="text" placeholder="username"/>
+          <input name="pw" type="password" placeholder="password"/>
+          <button id="executeSignUp">create</button>
+          <p class="message">계정이 이미 있나요? <a href="#">로그인</a></p>
+        </form>
+        <form class="login-form" method="POST" action="/auth/signin">
+          <input id="idInput" name="id" type="text" placeholder="username">
+          <input id="passInput" name="pw" type="password" placeholder="password">
+          <button id="executeSignIn">login</button>
+          <p class="message">계정이 없나요? <a href="#">계정 생성</a></p>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script src="login.js"></script>
+  </body>
+</html>
