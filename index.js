@@ -7,6 +7,8 @@ import cookie from 'cookie';
 import path from 'path';
 import randomstring from 'randomstring';
 import fs from 'fs';
+import cookieSession from 'cookie-session';
+
 let debug = require('debug')('dicon:server');
 
 let app = express();
@@ -33,6 +35,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieSession({
+  keys: ['h0t$ix'],
+  cookie: {
+    maxAge: 1000 * 60 * 60 // 유효기간 1시간
+  }
+}))
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -12,6 +12,13 @@ user_duplicate.prototype = new Error();
 ValidationError.prototype = new Error();
 paramsError.prototype = new Error();
 
+function isAuth (req, res, next) {
+  if (req.isAuthenticated())  return next();
+  res.redirect('/auth/signin');
+}
+
+
+global.isAuth = isAuth;
 global.user_duplicate = user_duplicate;
 global.ValidationError = ValidationError;
 global.paramsError = paramsError;
