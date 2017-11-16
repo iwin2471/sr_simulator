@@ -5,6 +5,33 @@ var mixers = [];
 var action;
 var actionStop = false;
 
+// var statBarData = {
+//   happiness: 80,
+//   coding: 80,
+//   dating: 80,
+//   health: 80
+// };
+
+var state = {
+  day: 1,
+  hours: 0,
+  statBarData: {
+    happiness: 80,
+    coding: 80,
+    dating: 80,
+    health: 80
+  }
+};
+
+function statusControl(stateFromServer){
+  state.day = stateFromServer.day;
+  state.hours = stateFromServer.hours;
+  state.statBarData.happiness = stateFromServer.statBarData.happiness;
+  state.statBarData.coding = stateFromServer.statBarData.coding;
+  state.statBarData.dating = stateFromServer.statBarData.dating;
+  state.statBarData.health = stateFromServer.statBarData.health;
+}
+
 var camRaycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2(0, 0);
 var clickedPos = new THREE.Vector3(0, 0, 0);
@@ -13,6 +40,7 @@ var clickedPos = new THREE.Vector3(0, 0, 0);
 var playerPos = new THREE.Vector3(0, 4, 0);
 var firstVisit = true;
 var firstVisitTennis = true;
+var firstVisitTv = true;
 var codingStarted = false;
 
 var renderer, scene, camera, light, controls;
@@ -21,22 +49,21 @@ var loadManager;
 
 var fullPlayer = new THREE.Object3D();
 var playerColl;
+var tvColl;
 
 var speed = 0.5;
 var disX, disZ;
 var angle;
 var notebookClick = false;
 var tabletennisClick = false;
+var tvClick = false;
 
-var day=1;
-var hours=0;
+// var day=1;
+// var hours=0;
 var startTime;
-var checkDayPast=0;
 
 var collidableMeshList = [];
 // var collided = false;
-
-var stats = initStats();
 
 // coding Game Variables
 var c = [
@@ -45,16 +72,41 @@ var c = [
   "for(i=1; i<=rows; ++i){",
   "for(j=1; j<=i; ++j){",
   "printf('*');}",
-  "printf(\"\\n\");"
+  "printf(\"\\n\");",
+  "int main(void){",
+  "#include <stdio.h>",
+  "return 0;"
 ];
 var java = [
-  "System.out.println('Hello World!');"
+  "System.out.println('Hello World!');",
+  "public static void main(String[] args){",
+  "Scanner sc = new Scanner(System.in)",
+  "InputStream is = new InputStream()",
+  "new Exam1();",
+  "super.num=1;",
+  "jsonObject.toString();",
+  "import java.util.Scanner;",
+  "extends AppCompat",
+  "implements AInterface{"
 ];
 var javascript = [
-  "for(var i=0; i<10; i++){"
+  "for(var i=0; i<10; i++){",
+  "object = {num: 2, num2: 3}",
+  "array = [1, 2, 3];",
+  "array.forEach(function(element){ })",
+  "window.location.href=\"google.com\"",
+  "setTimeout(function(){}, 1000)",
+  "setInterval(function(){}, 3000)"
 ];
-var html = [
-  "\<h1\>\<\/h1\>"
+var python = [
+  "if x < 0:",
+  "elif x == 1:",
+  "print('Zero')",
+  "for w in words:",
+  "if len(w) > 6:",
+  "for i in range(len(a)):",
+  "list(range(5))",
+  "def function(a):"
 ];
 var selectedLang;
 
@@ -67,20 +119,43 @@ var episodeCnt=1;
 
 var tableTennis;
 
-// var disX=null, disZ=null;
+var onlyOnce=0;
 
+var sendHappinessData=0;
+
+// var disX=null, disZ=null;
+var cnt=1;
 document.addEventListener('contextmenu', onMouseClick, false);
+document.addEventListener('keydown', function(event){
+  if(event.keyCode == 27){
+    if(cnt==1){
+      $(".logout-menu").css({"display": ""});
+      cnt*=-1;
+    }else{
+      $(".logout-menu").css({"display": "none"});
+      cnt*=-1;
+    }
+  }
+});
+$("#logout-btn").click(function(){
+  alert("log out!");
+});
 
 function init(){
   // 시간 개념
   // 새로 고침 했을 시 바로 업데이트
-  hours = Number(localStorage.getItem("hours"));
-  console.log(hours);
-  day = Number(localStorage.getItem("day"));
-  console.log(day+1);
-  if(hours%12===0 && hours>0){
-    day++;
-    localStorage.setItem("day", day);
+  state.hours = Number(localStorage.getItem("hours"));
+  console.log(state.hours);
+  state.day = Number(localStorage.getItem("day"));
+  console.log(state.day+1);
+  if(state.hours%12===0 && state.hours>0){
+    state.day++;
+    localStorage.setItem("day", state.day);
+    var minus = -16;
+    localStorage.setItem("healthData", Number(localStorage.getItem("healthData"))+minus);
+    localStorage.setItem("codingData", Number(localStorage.getItem("codingData"))+minus);
+    localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+minus);
+    localStorage.setItem("datingData", Number(localStorage.getItem("datingData"))+minus);
     $(".sleep").fadeIn("slow", function(){
       setTimeout(function(){
         $(".sleep").fadeOut("slow", function(){
@@ -89,31 +164,39 @@ function init(){
             playerColl.position.set(-20, 4, 0);
             fullPlayer.position.set(-20, 4, 0);
             clickedPos.set(-20, 4, 0);
+            localStorage.setItem("playerX", player.position.x);
+            localStorage.setItem("playerY", player.position.y);
+            localStorage.setItem("playerZ", player.position.z);
           }catch(e){
 
           }
         });
       }, 1000);
     });
-    hours=0;
-    localStorage.setItem("hours", hours);
+    state.hours=0;
+    localStorage.setItem("hours", state.hours);
   }
-  document.querySelector(".Hour").textContent = hours+":00";
-  document.querySelector("#dateText").textContent="Day "+(day+1);
+  document.querySelector(".Hour").textContent = state.hours+":00";
+  document.querySelector("#dateText").textContent="Day "+(state.day+1);
   console.log(document.querySelector("#dateText").textContent);
-  if((day+1)%3===1){
-    console.log((day+1)%3);
-    window.location.href = "/story/episode"+(Number(day/3)+1);
+  if((state.day+1)%3===1){
+    console.log((state.day+1)%3);
+    window.location.href = "episode"+(Number(state.day/3)+1)+".html";
   }
 
   // 1분이 지날때마다 한시간이 지나감
   startTime = setInterval(function(){
-    hours++;
-    localStorage.setItem("hours", hours);
-    console.log(hours);
-    if(hours%12===0 && hours>0){
-      day++;
-      localStorage.setItem("day", day);
+    state.hours++;
+    localStorage.setItem("hours", state.hours);
+    console.log(state.hours);
+    if(state.hours%12===0 && state.hours>0){
+      state.day++;
+      localStorage.setItem("day", state.day);
+      var minus = -16;
+      localStorage.setItem("healthData", Number(localStorage.getItem("healthData"))+minus);
+      localStorage.setItem("codingData", Number(localStorage.getItem("codingData"))+minus);
+      localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+minus);
+      localStorage.setItem("datingData", Number(localStorage.getItem("datingData"))+minus);
       $(".sleep").fadeIn("slow", function(){
         setTimeout(function(){
           $(".sleep").fadeOut("slow", function(){
@@ -122,25 +205,52 @@ function init(){
               playerColl.position.set(-20, 4, 0);
               fullPlayer.position.set(-20, 4, 0);
               clickedPos.set(-20, 4, 0);
+              localStorage.setItem("playerX", player.position.x);
+              localStorage.setItem("playerY", player.position.y);
+              localStorage.setItem("playerZ", player.position.z);
             }catch(e){
 
             }
           });
         }, 1000);
       });
-      hours=0;
-      localStorage.setItem("hours", hours);
+      state.hours=0;
+      localStorage.setItem("hours", state.hours);
     }
-    document.querySelector(".Hour").textContent = hours+":00";
-    document.querySelector("#dateText").textContent="Day "+(day+1);
-    if((day+1)%3===1){
-      window.location.href = "/story/episode"+(day+1)%3;
+    document.querySelector(".Hour").textContent = state.hours+":00";
+    document.querySelector("#dateText").textContent="Day "+(state.day+1);
+    if((state.day+1)%3===1){
+      window.location.href = "episode"+(Number(state.day/3)+1)+".html";
     }
   }, 60000);
 
   // 서버로부터 플레이어의 스탯 가져오기
   // 서버로부터 데이터 받고 아래와 같이 스탯바에 적용
-  // $(".Coding>.gage").css({"width": codingStats+"px"});
+  state.statBarData.coding += Number(localStorage.getItem("codingData"));
+  state.statBarData.dating += Number(localStorage.getItem("datingData"));
+  state.statBarData.health += Number(localStorage.getItem("healthData"));
+  state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
+  if(state.statBarData.coding <= 0){
+    window.location.href = "badEnding(Coding).html"
+  }else if(state.statBarData.dating <= 0){
+    window.location.href = "badEnding(Dating).html"
+  }else if(state.statBarData.health <= 0){
+    window.location.href = "badEnding(Health).html"
+  }else if(state.statBarData.happiness <= 0){
+    window.location.href = "badEnding(Happiness).html"
+  }
+
+  localStorage.setItem("realDatingData", state.statBarData.dating);
+
+  console.log(state.statBarData.coding);
+  console.log(state.statBarData.dating);
+  console.log(state.statBarData.health);
+  console.log(state.statBarData.happiness);
+
+  $(".Coding>.gage").css({"width": state.statBarData.coding+"px"});
+  $(".Health>.gage").css({"width": state.statBarData.health+"px"});
+  $(".Happiness>.gage").css({"width": state.statBarData.happiness+"px"});
+  $(".Dating>.gage").css({"width": state.statBarData.dating+"px"});
 
   // 렌더러 구현
   renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
@@ -577,9 +687,10 @@ function init(){
 
   var tvCollGeo = new THREE.BoxGeometry(80, 10, 30);
   var tvCollMat = new THREE.MeshPhongMaterial({color: 0xffffff, opacity:0.0, transparent:true});
-  var tvColl = new THREE.Mesh(tvCollGeo, tvCollMat);
+  tvColl = new THREE.Mesh(tvCollGeo, tvCollMat);
   tvColl.position.set(150, 0, 300);
   collidableMeshList.push(tvColl);
+  tvColl.name="tv";
   scene.add(tvColl);
 
   // 이동 처리
@@ -595,7 +706,6 @@ function init(){
 }
 
 function render(){
-  stats.update();
 
   try{
     if(action.time >= 3.3){
@@ -629,12 +739,12 @@ function render(){
             // a collision occurred... do something...
              console.log("충돌");
             //clickedPos.set(player.position.x, player.position.y, player.position.z);
-            player.position.x -= Math.cos(angle * Math.PI/180)*speed*0.01;
-            player.position.z -= Math.sin(angle * Math.PI/180)*speed*0.01;
-            playerColl.position.x -= Math.cos(angle * Math.PI/180)*speed*0.01;
-            playerColl.position.z -= Math.sin(angle * Math.PI/180)*speed*0.01;
-            fullPlayer.position.x -= Math.cos(angle * Math.PI/180)*speed*0.01;
-            fullPlayer.position.z -= Math.sin(angle * Math.PI/180)*speed*0.01;
+            player.position.x -= Math.cos(angle * Math.PI/180)*speed*0.05;
+            player.position.z -= Math.sin(angle * Math.PI/180)*speed*0.05;
+            playerColl.position.x -= Math.cos(angle * Math.PI/180)*speed*0.05;
+            playerColl.position.z -= Math.sin(angle * Math.PI/180)*speed*0.05;
+            fullPlayer.position.x -= Math.cos(angle * Math.PI/180)*speed*0.05;
+            fullPlayer.position.z -= Math.sin(angle * Math.PI/180)*speed*0.05;
             clickedPos.set(player.position.x, player.position.y, player.position.z);
         }
     }
@@ -722,9 +832,9 @@ function render(){
           loadGame();
         })
 
-        $("#HTML").click(function(){
-          html = shuffle(html);
-          selectedLang = html;
+        $("#Python").click(function(){
+          python = shuffle(python);
+          selectedLang = python;
           loadGame();
         })
       })
@@ -740,21 +850,61 @@ function render(){
   // 탁구대와 가까워지면 페이지 이동
   try{
     if((tabletennisClick === true) && (playerPos.distanceTo(tableTennis.position) < 80) && (firstVisitTennis === true)){
-      firstVisitTennis = false;
-      // 탁구 소요 시간 4시간 추가
-      hours+=4;
-      if((hours/12) > 1){
-        hours = 12;
-      }
-      localStorage.setItem("hours", hours);
-      // document.querySelector(".Hour").textContent = hours+":00";
-      // document.querySelector("#dateText").textContent="Day "+(day+1);
-      localStorage.setItem("playerX", playerPos.x);
-      localStorage.setItem("playerY", playerPos.y);
-      localStorage.setItem("playerZ", playerPos.z);
-      window.location.href = "/tableTennis";
+        firstVisitTennis = false;
+        // 탁구 소요 시간 4시간 추가
+        state.hours+=4;
+        if((state.hours/12) > 1){
+          state.hours = 12;
+        }
+        localStorage.setItem("hours", state.hours);
+        // document.querySelector(".Hour").textContent = hours+":00";
+        // document.querySelector("#dateText").textContent="Day "+(day+1);
+        localStorage.setItem("playerX", playerPos.x);
+        localStorage.setItem("playerY", playerPos.y);
+        localStorage.setItem("playerZ", playerPos.z);
+        window.location.href = "tableTennis.html";
     }else if(playerPos.distanceTo(tableTennis.position) >= 80){
       firstVisitTennis = true;
+    }
+  }catch(e){
+
+  }
+  try{
+    if((tvClick === true) && (playerPos.distanceTo(tvColl.position) < 80) && (firstVisitTv === true)){
+      onlyOnce++;
+      if(onlyOnce===1){
+        console.log(onlyOnce);
+        firstVisitTv = false;
+        clickedPos.set(player.position.x, player.position.y, player.position.z);
+
+        $(".watch").css({"display": ""});
+        new moment.duration(1000).timer({wait: 5000, executeAfterWait: true}, function(){
+          $(".watch").css({"display": "none"});
+          console.log("Hi");
+        });
+
+        sendHappinessData += 16;
+        // 서버
+        //state.statBarData.happiness+=sendHappinessData;
+        $(".Happiness>.gage").css({"width": state.statBarData.happiness+"px"});
+        localStorage.setItem("happinessData", sendHappinessData);
+
+        state.hours+=2;
+        if((state.hours/12) > 1){
+          state.hours = 0;
+          state.day++;
+        }
+        localStorage.setItem("hours", state.hours);
+        localStorage.setItem("day", state.day);
+        document.querySelector(".Hour").textContent = state.hours+":00";
+        document.querySelector("#dateText").textContent="Day "+(state.day+1);
+        if((state.day+1)%3===1){
+          window.location.href = "episode"+(Number(state.day/3)+1)+".html";
+        }
+      }
+    }else if(playerPos.distanceTo(tvColl.position) >= 80){
+      firstVisitTv = true;
+      onlyOnce=0;
     }
   }catch(e){
 
@@ -820,6 +970,7 @@ function onMouseClick(event){
     var intersects = camRaycaster.intersectObjects(scene.children);
     var isNote = false;
     var isTable = false;
+    var isTv = false;
 
     for ( var i = 0; i < intersects.length; i++ ) {
       console.log(intersects);
@@ -827,10 +978,16 @@ function onMouseClick(event){
       if(intersects[i].object.name === "notebook"){
         notebookClick = true;
         isNote = true;
-      }else if(intersects[i].object.name === "tabletennis"){
+      }
+      if(intersects[i].object.name === "tabletennis"){
         console.log("탁구 클릭");
         tabletennisClick = true;
         isTable = true;
+      }
+      if(intersects[i].object.name === "tv"){
+        console.log("티비 켜짐");
+        tvClick = true;
+        isTv = true;
       }
     }
     if(isNote === false){
@@ -838,6 +995,9 @@ function onMouseClick(event){
     }
     if(isTable === false){
       tabletennisClick = false;
+    }
+    if(isTv === false){
+      tvClick = false;
     }
 
     var lookVector = new THREE.Vector3();
