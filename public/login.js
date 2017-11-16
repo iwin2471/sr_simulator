@@ -47,7 +47,7 @@ function init(){
   window.addEventListener( 'resize', onWindowResize, false );
 
   // 텍스트 오브젝트 생성
-  loader.load('/fonts/helvetiker_regular.typeface.json', function(font){
+  loader.load('fonts/helvetiker_regular.typeface.json', function(font){
     var textGeometry = new THREE.TextGeometry('SRSimulator', {
       font: font,
       size: 80,

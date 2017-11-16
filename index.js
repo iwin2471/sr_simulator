@@ -45,7 +45,7 @@ const game = require('./routes/game')(express.Router(), Users);
 
 //router setting
 app.use('/', index);
-app.use('/game', game);
+app.use('/story', game);
 app.use('/tableTennis', tableTennis);
 app.use('/users', users);
 app.use('/auth', auth);
