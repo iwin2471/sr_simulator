@@ -1,5 +1,5 @@
 module.exports = (router, Users, passport) =>{
-  router.get('/signup', async (req,res)=>{
+  router.get('/signin', async (req,res)=>{
     res.redirect('/login.html');
   });
   router.post('/signup', async (req, res) => {
