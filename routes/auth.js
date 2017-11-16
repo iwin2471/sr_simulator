@@ -13,7 +13,7 @@ module.exports = (router, Users, passport) =>{
         if(e instanceof ValidationError) return res.status(400).json({message: e.message});
         if(e instanceof paramsError) return res.status(400).json({message: e.message});
       }
-      return res.status(200).json(result);
+      res.redirect('/');
   })
 
   .post('/signin', passport.authenticate('local'), (req,res)=>{

@@ -6,7 +6,7 @@ var db = mongoose.connect('mongodb://localhost/'+name.name);
 mongoose.Promise = global.Promise;
 
 var UsersSchema = mongoose.Schema({
-  id: {type: String},
+  id: {type: String, unique: true},
   passwd: {type: String},
   nick_name: {type: String},
   days: {type: Number},
