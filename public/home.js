@@ -248,11 +248,11 @@ async function init(){
      }
   })
 
-  get_state.done(function(state){
+  get_state.done(function(data){
     state.statBarData.coding += Number(localStorage.getItem("codingData"));
     state.statBarData.dating += Number(localStorage.getItem("datingData"));
     state.statBarData.health += Number(localStorage.getItem("healthData"));
-  state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
+    state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
   if(state.statBarData.coding <= 0){
     window.location.href = "badEnding(Coding).html"
   }else if(state.statBarData.dating <= 0){
