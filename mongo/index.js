@@ -9,10 +9,16 @@ var UsersSchema = mongoose.Schema({
   id: {type: String, unique: true},
   passwd: {type: String},
   nick_name: {type: String},
-  days: {type: Number},
-  favor: {type: Number},
-  health: {type: Number},
-  dev_availity: {type: Number},
+  state:{
+    day: {type: Number},
+    hours: {type: Number},
+    statBarData: {
+      happiness: {type: Number},
+      coding: {type: Number},
+      dating: {type: Number},
+      health: {type: Number}
+    }
+  }
 });
 
 

@@ -141,7 +141,7 @@ $("#logout-btn").click(function(){
   alert("log out!");
 });
 
-function init(){
+async function init(){
   // 시간 개념
   // 새로 고침 했을 시 바로 업데이트
   state.hours = Number(localStorage.getItem("hours"));
@@ -150,6 +150,16 @@ function init(){
   console.log(state.day+1);
   if(state.hours%12===0 && state.hours>0){
     state.day++;
+    var update_state = awiat $.ajax({
+      method:"post",
+      url:"http://iwin247.kr:4000/users/state",
+      success:function(data){
+        console.log(data.message);
+      },
+      error:function(){
+        alert("Server Error");
+      }
+    });
     localStorage.setItem("day", state.day);
     var minus = -16;
     localStorage.setItem("healthData", Number(localStorage.getItem("healthData"))+minus);

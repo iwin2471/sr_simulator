@@ -3,9 +3,16 @@ module.exports = (router, Users)=>{
     const users = await Users.find();
     return res.status(200).json(users);
   })
-  .get('/state', (req, res)=>{
-    console.log(req.session.passport.user);
-    return res.status(200).json(req.session.passport.user);
+  .get('/state', async (req, res)=>{
+    const state = await Users.findOne(req.session.passport.user, {state: 1});
+    return res.status(200).json(state);
+  })
+  .post('/state', async (req, res)=>{
+    const state = req.body.state;
+    const update_result = await Users.update(req.session.passport.user, {$set: {state: state}});
+
+    if(update_result) res.status(200).json({message: "done"});
+    else res.status(400).json({message: "somthing wrong"});
   })
 
   .post('/user', (req, res)=>{
