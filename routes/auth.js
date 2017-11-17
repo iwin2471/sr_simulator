@@ -4,7 +4,6 @@ module.exports = (router, Users, passport) =>{
   });
   router.post('/signup', async (req, res) => {
       const data = req.body;
-      console.log(data);
       const new_user = new Users(data);
       try{
         var result = await new_user.save();
