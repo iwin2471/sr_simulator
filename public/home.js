@@ -152,7 +152,7 @@ async function init(){
     state.day++;
     var update_state = await $.ajax({
       method:"post",
-      data: {"state": state},
+      data: state,
       url:"http://iwin247.kr:4000/users/state",
       success:function(data){
         console.log(data.message);
