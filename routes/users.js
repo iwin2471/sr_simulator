@@ -1,12 +1,10 @@
-module.exports = (router, Users)=>{
+module.exports = (router, Users, passport)=>{
   router.get('/', async (req, res)=>{
     const users = await Users.find();
     return res.status(200).json(users);
   })
   .get('/state', async (req, res)=>{
-    const state = await Users.findOne(req.session.passport.user, {_id: 0, state: 1});
-    console.log(state);
-    return res.status(200).json(state);
+    return res.status(200).json(req.user.state);
   })
   .post('/state', async (req, res)=>{
     const state = req.body;

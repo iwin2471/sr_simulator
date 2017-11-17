@@ -153,6 +153,7 @@ $("#logout-btn").click(function(){
 });
 
 async function init(){
+  await get_info();
   // 시간 개념
   // 새로 고침 했을 시 바로 업데이트
   state.hours = Number(localStorage.getItem("hours"));
@@ -161,6 +162,7 @@ async function init(){
   console.log(state.day+1);
   if(state.hours%12===0 && state.hours>0){
     state.day += 1;
+    state.hours=0;
     localStorage.setItem("day", state.day);
     var minus = -16;
     localStorage.setItem("healthData", Number(localStorage.getItem("healthData"))+minus);
@@ -172,6 +174,7 @@ async function init(){
     state.statBarData.dating += Number(localStorage.getItem("datingData"));
     state.statBarData.health += Number(localStorage.getItem("healthData"));
     state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
+    await axios.post('/users/state', {day: state.day, "hours": state.hours, "happiness":state.statBarData.happiness, "coding": state.statBarData.coding, "dating": state.statBarData.dating, "health": state.statBarData.health})
 
     $(".sleep").fadeIn("slow", function(){
       setTimeout(function(){
@@ -192,7 +195,6 @@ async function init(){
     });
     state.hours=0;
     console.log(state.day);
-    await axios.post('/users/state', {day: state.day, "hours": state.hours, "happiness":state.statBarData.happiness, "coding": state.statBarData.coding, "dating": state.statBarData.dating, "health": state.statBarData.health})
     localStorage.setItem("hours", state.hours);
     window.location.href = "home.html";
   }
