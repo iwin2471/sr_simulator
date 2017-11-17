@@ -20,25 +20,30 @@ module.exports = (router, Users, passport)=>{
        }
     };
 
-    console.log(test);
-
-    const update_result = await Users.update(req.session.passport.user, {$set: {state: test}});
+    const update_result = await Users.update(req.user, {$set: {state: test}});
 
     if(update_result) res.status(200).json({message: "done"});
     else res.status(400).json({message: "somthing wrong"});
   })
 
-  .post('/user', (req, res)=>{
-
+  .post('/health', (req, res)=>{
+    const update_result = await Users.update(req.user, {$inc: {state: {health: req.body.health}}});
+    if(update_result) res.status(200).json({message: "done"});
   })
 
-  .put('/:id', (req, res)=>{
-
+  .post('/coding', (req, res)=>{
+    const update_result = await Users.update(req.user, {$inc: {state: {coding: req.body.coding}}});
+    if(update_result) res.status(200).json({message: "done"});
   })
 
-  .delete('/:id', (req, res)=>{
-
+  .post('/dating', (req, res)=>{
+    const update_result = await Users.update(req.user, {$inc: {state: {dating: req.body.dating}}});
+    if(update_result) res.status(200).json({message: "done"});
   })
 
+  .post('/happiness', (req, res)=>{
+    const update_result = await Users.update(req.user, {$inc: {state: {happiness: req.body.happiness}}});
+    if(update_result) res.status(200).json({message: "done"});
+  })
   return router;
 }

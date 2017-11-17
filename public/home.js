@@ -695,7 +695,7 @@ async function init(){
   render();
 }
 
-function render(){
+async function render(){
 
   try{
     if(action.time >= 3.3){
@@ -876,6 +876,7 @@ function render(){
         });
 
         var sendHappinessData = 16;
+        await axios.post('/users/happiness', {"happiness": sendHappinessData})
         // 서버
         state.statBarData.happiness+=sendHappinessData;
         $(".Happiness>.gage").css({"width": state.statBarData.happiness+"px"});

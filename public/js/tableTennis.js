@@ -235,7 +235,7 @@ function animate() {
   requestAnimationFrame( animate );
 }
 
-function render() {
+async function render() {
   // 시간
   t = new Date().getTime();
   d = t - ot;
@@ -270,14 +270,14 @@ function render() {
         var difScore = userplayerScore - aiplayerScore;
         var sendHealthData=0;
         if(difScore >= 6){
-          sendHealthData+=16;
+          sendHealthData=16;
         }else if(difScore >= 3){
-          sendHealthData+=8;
+          sendHealthData=8;
         }else{
-          sendHealthData+=5;
+          sendHealthData=5;
         }
         localStorage.setItem("healthData", sendHealthData);
-
+        await axios.post('/users/health', {"health": sendHealthData})
         window.location.href = "home.html";
       }
       else if(aiplayerScore === 7){
@@ -286,7 +286,7 @@ function render() {
         var sendHealthData=-16;
         // 서버로 sendHealthData를 주고 서버에서 Health 데이터에 값 추가하기
         localStorage.setItem("healthData", sendHealthData);
-
+        await axios.post('/users/health', {"health": sendHealthData})
         window.location.href = "home.html";
       }
 

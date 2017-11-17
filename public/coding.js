@@ -23,7 +23,7 @@ function startGame(){
   })
 }
 
-function onEnter(e){
+async function onEnter(e){
   if (e.keyCode == 13) {
     var inputText = document.getElementById('inputCode').value;
     // console.log(inputText);
@@ -63,6 +63,7 @@ function onEnter(e){
       }
       // 서버에 sendCodingData값 전송 후 Coding 데이터에 값 추가하기
       localStorage.setItem("codingData", sendCodingData);
+      await axios.post('/users/coding', {"coding": sendCodingData})
 
       // 탁구 소요시간 3시간 추가
       state.hours+=3;

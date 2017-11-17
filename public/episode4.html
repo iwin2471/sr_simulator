@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>SRS Episode 4</title>
     <link rel="stylesheet" href="interactiveFiction.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -269,7 +270,7 @@
     <script type="text/javascript">
       var scene = 1;
       var sendDatingData = 0;
-      function first(){
+    async  function first(){
         sendDatingData += 0;
         localStorage.setItem("datingData", sendDatingData);
         $("#scene5").css({"display":"none"});
@@ -282,8 +283,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function second(){
+    async function second(){
         sendDatingData += 16;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene5").css({"display":"none"});
         $("#scene5-2").css({"display":""});
@@ -295,8 +297,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function third(){
+    async  function third(){
         sendDatingData += -48;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene5").css({"display":"none"});
         $("#scene5-3").css({"display":""});
@@ -308,8 +311,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function fourth(){
+    async  function fourth(){
         sendDatingData += -48;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene7").css({"display":"none"});
         $("#scene7-1").css({"display":""});
@@ -321,8 +325,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function fifth(){
+    async  function fifth(){
         sendDatingData += 16;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene7").css({"display":"none"});
         $("#scene7-2").css({"display":""});
@@ -334,8 +339,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function sixth(){
+    async  function sixth(){
         sendDatingData += -48;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene7").css({"display":"none"});
         $("#scene7-3").css({"display":""});
@@ -347,8 +353,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function seventh(){
+    async  function seventh(){
         sendDatingData += 16;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene8").css({"display":"none"});
         $("#scene8-1").css({"display":""});
@@ -360,8 +367,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function eighth(){
+    async  function eighth(){
         sendDatingData += -48;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene8").css({"display":"none"});
         $("#scene8-2").css({"display":""});
@@ -373,8 +381,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function ninth(){
+    async  function ninth(){
         sendDatingData += -48;
+        await axios.post('/users/dating', {"dating": sendDatingData})
         localStorage.setItem("datingData", sendDatingData);
         $("#scene8").css({"display":"none"});
         $("#scene8-3").css({"display":""});
@@ -386,7 +395,7 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function tenth(){
+  async    function tenth(){
         $("#scene35").css({"display":"none"});
         $("#scene35-1").css({"display":""});
         scene=35;
@@ -397,7 +406,7 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-      function eleventh(){
+    async  function eleventh(){
         $("#scene35").css({"display":"none"});
         $("#scene35-2").css({"display":""});
         scene=37;
