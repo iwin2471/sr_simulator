@@ -166,7 +166,7 @@ async function init(){
     state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
     var update_state = await $.ajax({
       method:"post",
-      data: state,
+      data: {"day": state.day, "hours": state.hours, "statBarData":{"happiness":state.statBarData.happiness, "coding": state.statBarData.coding, "dating": state.statBarData.dating, "health": state.statBarData.health}},
       url:"http://iwin247.kr:4000/users/state",
       success:function(data){
         console.log(data.message);
