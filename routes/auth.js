@@ -16,7 +16,7 @@ module.exports = (router, Users, passport) =>{
   })
 
   .post('/signin', passport.authenticate('local'), (req,res)=>{
-     res.redirect('/'); 
+     res.redirect('/');
   })
 
   .get('/auto/:token', (req, res)=>{
@@ -33,6 +33,11 @@ module.exports = (router, Users, passport) =>{
        return res.status(400).send("param missing or null");
      }
   })
+
+  .post('/logout', (req, res)=>{
+    req.logout();
+    return res.redirect('/');
+  });
 
   return router;
 }

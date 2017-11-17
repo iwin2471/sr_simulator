@@ -269,11 +269,9 @@
     <script type="text/javascript">
       var scene = 1;
       var sendDatingData = 0;
-
       function first(){
         sendDatingData += 0;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene5").css({"display":"none"});
         $("#scene5-1").css({"display":""});
         scene = 5;
@@ -284,11 +282,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function second(){
         sendDatingData += 16;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene5").css({"display":"none"});
         $("#scene5-2").css({"display":""});
         scene = 5;
@@ -299,11 +295,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function third(){
         sendDatingData += -48;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene5").css({"display":"none"});
         $("#scene5-3").css({"display":""});
         scene = 5;
@@ -314,11 +308,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function fourth(){
         sendDatingData += -48;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene7").css({"display":"none"});
         $("#scene7-1").css({"display":""});
         scene = 7;
@@ -329,11 +321,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function fifth(){
         sendDatingData += 16;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene7").css({"display":"none"});
         $("#scene7-2").css({"display":""});
         scene = 7;
@@ -344,11 +334,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function sixth(){
         sendDatingData += -48;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene7").css({"display":"none"});
         $("#scene7-3").css({"display":""});
         scene = 7;
@@ -359,11 +347,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function seventh(){
         sendDatingData += 16;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene8").css({"display":"none"});
         $("#scene8-1").css({"display":""});
         scene = 8;
@@ -374,11 +360,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function eighth(){
         sendDatingData += -48;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene8").css({"display":"none"});
         $("#scene8-2").css({"display":""});
         scene = 9;
@@ -389,11 +373,9 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function ninth(){
         sendDatingData += -48;
         localStorage.setItem("datingData", sendDatingData);
-
         $("#scene8").css({"display":"none"});
         $("#scene8-3").css({"display":""});
         scene = 9;
@@ -404,7 +386,6 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function tenth(){
         $("#scene35").css({"display":"none"});
         $("#scene35-1").css({"display":""});
@@ -416,7 +397,6 @@
           $("#clickArea").removeAttr("disabled");
         }
       }
-
       function eleventh(){
         $("#scene35").css({"display":"none"});
         $("#scene35-2").css({"display":""});
@@ -427,12 +407,10 @@
         }else{
           $("#clickArea").removeAttr("disabled");
         }
-
         window.location.href = "login.html";
       }
-
       document.getElementById("clickArea").addEventListener("click", function(){
-        if(Number(localStorage.getItem("realDatingData"))-Number(localStorage.getItem("datingData")) <= 0){
+        if(Number(localStorage.getItem("realDatingData"))+sendDatingData <= 0){
           window.location.href = "badEnding(Dating).html";
         }
         if(scene===4 || scene===6 || scene===34){
@@ -452,7 +430,6 @@
           $("#scene8-3").css({"display": "none"});
           $("#scene35-1").css({"display":"none"});
           $("#scene35-2").css({"display":"none"});
-
           $("#scene"+scene).css({"display": "none"});
           scene++;
           console.log(scene);

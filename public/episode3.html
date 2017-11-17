@@ -395,12 +395,10 @@
   <script type="text/javascript">
     var scene = 1;
     var sendDatingData=0;
-
     function first(){
       sendDatingData += -48;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene8").css({"display": "none"});
       $("#scene8-1").css({"display": ""});
       scene=8;
@@ -410,14 +408,10 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     function second(){
       sendDatingData += 16;
-
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
-
       $("#scene8").css({"display": "none"});
       $("#scene8-2").css({"display": ""});
       scene=8;
@@ -428,229 +422,114 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
-
-
     function third(){
       sendDatingData += 0;
       localStorage.setItem("datingData", sendDatingData);
       // 서버로 데이터 전송
-
-
       $("#scene8").css({"display": "none"});
       $("#scene8-3").css({"display": ""});
       scene=8;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
-
-
     function fourth(){
-
       sendDatingData += 16;
       localStorage.setItem("datingData", sendDatingData);
-
       // 서버로 데이터 전송
-
-
-
       $("#scene22").css({"display": "none"});
-
       $("#scene22-1").css({"display": ""});
-
       scene = 22;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
-
-
     function fifth(){
-
       sendDatingData += 0;
       localStorage.setItem("datingData", sendDatingData);
       // 서버로 데이터 전송
-
-
-
       $("#scene22").css({"display": "none"});
-
       $("#scene22-2").css({"display": ""});
-
       scene = 22;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
-
-
     function sixth(){
       sendDatingData += -48;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
-
       $("#scene22").css({"display": "none"});
-
       $("#scene22-3").css({"display": ""});
-
       scene = 22;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
-
-
     function seventh(){
-
       sendDatingData += -48;
       localStorage.setItem("datingData", sendDatingData);
       // 서버로 데이터 전송
-
-
-
       $("#scene28").css({"display": "none"});
-
       $("#scene28-1").css({"display": ""});
-
       scene = 28;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
-
-
     function eighth(){
-
       sendDatingData += 0;
       localStorage.setItem("datingData", sendDatingData);
       // 서버로 데이터 전송
-
-
-
       $("#scene28").css({"display": "none"});
-
       $("#scene28-2").css({"display": ""});
-
       scene = 28;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
-
-
     function nineth(){
-
       sendDatingData += 16;
       localStorage.setItem("datingData", sendDatingData);
       // 서버로 데이터 전송
-
-
-
       $("#scene28").css({"display": "none"});
-
       $("#scene28-3").css({"display": ""});
-
       scene = 28;
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
     }
-
     document.getElementById("clickArea").addEventListener("click", function(){
-      if(Number(localStorage.getItem("realDatingData"))-Number(localStorage.getItem("datingData")) <= 0){
+      if(Number(localStorage.getItem("realDatingData"))+sendDatingData <= 0){
         window.location.href = "badEnding(Dating).html";
       }
-
       if(scene===7 || scene===21 || scene==27){
-
         console.log(scene);
-
         $("#clickArea").attr("disabled", true);
-
       }else{
-
         $("#clickArea").removeAttr("disabled");
-
       }
-
         $("#scene8-1").css({"display": "none"});
         $("#scene8-2").css({"display": "none"});
         $("#scene8-3").css({"display": "none"});
@@ -660,38 +539,23 @@
         $("#scene28-1").css({"display": "none"});
         $("#scene28-2").css({"display": "none"});
         $("#scene28-3").css({"display": "none"});
-
         $("#scene"+scene).css({"display": "none"});
-
         scene++;
-
         console.log(scene);
-
         if(scene===6 || scene===8 || scene===22 || scene===28 || scene===30){
-
           $("#name").text("예진이");
-
         }else if(scene===1 || scene===7 || scene===10 || scene===14 || scene===16 || scene===19 || scene===21 || scene===24 || scene===25 || scene===27 || scene===29 || scene===31){
-
           $("#name").text("삼훈이");
-
         }else{
           $("#name").text("???");
         }
-
         $("#scene"+scene).css({"display": ""});
-
         if(scene===32){
           var hours = 12;
           localStorage.setItem("hours", hours);
           window.location.href = "home.html";
-
         }
-
     });
-
-
-
   </script>
 
 </html>
