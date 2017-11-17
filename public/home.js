@@ -248,8 +248,22 @@ async function init(){
 
   // 서버로부터 플레이어의 스탯 가져오기
   // 서버로부터 데이터 받고 아래와 같이 스탯바에 적용
+  var get_state = await $.ajax({
+     method:"GET",
+     url:"http://iwin247.kr:4000/users/state",
+     success:function(data){
+       return data;
+     },
+     error:function(){
+       alert("Server Error");
+     }
+  })
+  console.log(get_state);
+
   get_state.done(function(data){
     if(data !== null || data === undefined){
+      alert(data);
+      console.log(data.day);
       state.hours =data.hours;
       state.statBarData.coding = data.statBarData.coding;
       state.statBarData.dating = data.statBarData.dating;
