@@ -10,13 +10,13 @@ var UsersSchema = mongoose.Schema({
   passwd: {type: String},
   nick_name: {type: String},
   state:{
-    day: {type: Number},
-    hours: {type: Number},
+    day: {type: Number, default: 1},
+    hours: {type: Number, default: 0},
     statBarData: {
-      happiness: {type: Number},
-      coding: {type: Number},
-      dating: {type: Number},
-      health: {type: Number}
+      happiness: {type: Number, default: 80},
+      coding: {type: Number, default: 80},
+      dating: {type: Number, default: 80},
+      health: {type: Number, default: 80}
     }
   }
 });

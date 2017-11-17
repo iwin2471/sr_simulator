@@ -19,8 +19,6 @@ var state = {
 async function get_info(){
  var data = await axios.get('/users/state');
  data = data.data;
- console.log(data);
- alert("dsf");
  if(data) statusControl(data);
 }
 get_info();
