@@ -147,6 +147,7 @@ $("#logout-btn").click(function(){
   document.body.appendChild(form);
 
   form.submit();
+  localStorage.clear();
   alert("log out!");
 });
 
