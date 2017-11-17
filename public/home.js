@@ -15,6 +15,9 @@ var state = {
     health: 80
   }
 };
+var data = await axios.get('/users/state');
+data = data.data;
+if(data) statusControl(data);
 
 function statusControl(stateFromServer){
   state.day = stateFromServer.day;
@@ -248,31 +251,6 @@ async function init(){
 
   // 서버로부터 플레이어의 스탯 가져오기
   // 서버로부터 데이터 받고 아래와 같이 스탯바에 적용
-    var data = await axios.get('/users/state');
-    data = data.data;
-    if(data !== null || data === undefined){
-      state.hours =data.hours;
-      state.statBarData.coding = data.statBarData.coding;
-      state.statBarData.dating = data.statBarData.dating;
-      state.statBarData.health = data.statBarData.health;
-      state.statBarData.happiness = data.statBarData.happiness;
-      state.day =data.day;
-      if(state.statBarData.coding <= 0){
-        window.location.href = "badEnding(Coding).html";
-      }else if(state.statBarData.dating <= 0){
-        window.location.href = "badEnding(Dating).html";
-      }else if(state.statBarData.health <= 0){
-        window.location.href = "badEnding(Health).html";
-      }else if(state.statBarData.happiness <= 0){
-        window.location.href = "badEnding(Happiness).html";
-      }
-      localStorage.setItem("hours", state.hours);
-      localStorage.setItem("day", state.day);
-      localStorage.setItem("healthData", state.statBarData.health);
-      localStorage.setItem("codingData",   state.statBarData.coding);
-      localStorage.setItem("happinessData", state.statBarData.happiness);
-      localStorage.setItem("datingData", state.statBarData.dating);
-    }else{
       state.statBarData.coding += Number(localStorage.getItem("codingData"));
       state.statBarData.dating += Number(localStorage.getItem("datingData"));
       state.statBarData.health += Number(localStorage.getItem("healthData"));
@@ -286,7 +264,6 @@ async function init(){
       }else if(state.statBarData.happiness <= 0){
         window.location.href = "badEnding(Happiness).html"
       }
-    }
       localStorage.setItem("realDatingData", state.statBarData.dating);
 
 
