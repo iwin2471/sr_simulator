@@ -150,7 +150,7 @@ async function init(){
   console.log(state.day+1);
   if(state.hours%12===0 && state.hours>0){
     state.day++;
-    var update_state = awiat $.ajax({
+    var update_state = await $.ajax({
       method:"post",
       url:"http://iwin247.kr:4000/users/state",
       success:function(data){
