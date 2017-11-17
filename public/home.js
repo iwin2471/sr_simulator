@@ -16,11 +16,14 @@ var state = {
   }
 };
 
-async ()=>{
+async function get_info(){
  var data = await axios.get('/users/state');
  data = data.data;
+ console.log(data);
+ alert("dsf");
  if(data) statusControl(data);
 }
+get_info();
 
 function statusControl(stateFromServer){
   state.day = stateFromServer.day;
@@ -159,7 +162,7 @@ async function init(){
   state.day = Number(localStorage.getItem("day"));
   console.log(state.day+1);
   if(state.hours%12===0 && state.hours>0){
-    state.day++;
+    state.day += 1;
     localStorage.setItem("day", state.day);
     var minus = -16;
     localStorage.setItem("healthData", Number(localStorage.getItem("healthData"))+minus);
