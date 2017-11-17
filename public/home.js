@@ -193,6 +193,7 @@ async function init(){
       }, 1000);
     });
     state.hours=0;
+    console.log(state.day);
     await axios.post('/users/state', {day: state.day, "hours": state.hours, "happiness":state.statBarData.happiness, "coding": state.statBarData.coding, "dating": state.statBarData.dating, "health": state.statBarData.health})
     localStorage.setItem("hours", state.hours);
     window.location.href = "home.html";
