@@ -15,9 +15,12 @@ var state = {
     health: 80
   }
 };
-var data = await axios.get('/users/state');
-data = data.data;
-if(data) statusControl(data);
+
+async ()=>{
+ var data = await axios.get('/users/state');
+ data = data.data;
+ if(data) statusControl(data);
+}
 
 function statusControl(stateFromServer){
   state.day = stateFromServer.day;
