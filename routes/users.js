@@ -10,13 +10,18 @@ module.exports = (router, Users)=>{
   .post('/state', async (req, res)=>{
     const state = req.body;
     if(!state) return res.status(400).json({message: "param missing"});
-    console.log(state.statBarData);
-
+    console.log(state);
     var test = {
        "state":{
-         state
+         day: state.day,
+         hours: state.hours,
+         statBarData:{
+           happiness: state.statBarData['happiness'],
+           coding: state.statBarData[coding],
+           dating: state.statBarData[dating],
+           health: state.statBarData[health] 
        }
-    };
+    }};
     const update_result = await Users.update(req.session.passport.user, {$set: {state: state}});
 
     if(update_result) res.status(200).json({message: "done"});

@@ -160,7 +160,7 @@ async function init(){
     localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+minus);
     localStorage.setItem("datingData", Number(localStorage.getItem("datingData"))+minus);
 
-    state.statBarData.Number(localStorage.getItem("codingData"));
+    state.statBarData.coding += Number(localStorage.getItem("codingData"));
     state.statBarData.dating += Number(localStorage.getItem("datingData"));
     state.statBarData.health += Number(localStorage.getItem("healthData"));
     state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
