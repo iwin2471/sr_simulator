@@ -226,9 +226,21 @@ function init(){
 
   // 서버로부터 플레이어의 스탯 가져오기
   // 서버로부터 데이터 받고 아래와 같이 스탯바에 적용
-  state.statBarData.coding += Number(localStorage.getItem("codingData"));
-  state.statBarData.dating += Number(localStorage.getItem("datingData"));
-  state.statBarData.health += Number(localStorage.getItem("healthData"));
+  var get_state = $.ajax({
+     method:"GET",
+     url:"http://iwin247.kr:4000/users/state",
+     success:function(data){
+       return data;
+     },
+     error:function(){
+       alert("Server Error");
+     }
+  })
+
+  get_state.done(function(state){
+    state.statBarData.coding += Number(localStorage.getItem("codingData"));
+    state.statBarData.dating += Number(localStorage.getItem("datingData"));
+    state.statBarData.health += Number(localStorage.getItem("healthData"));
   state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
   if(state.statBarData.coding <= 0){
     window.location.href = "badEnding(Coding).html"
@@ -241,6 +253,7 @@ function init(){
   }
 
   localStorage.setItem("realDatingData", state.statBarData.dating);
+  });
 
   console.log(state.statBarData.coding);
   console.log(state.statBarData.dating);
@@ -365,7 +378,7 @@ function init(){
   scene.add(light);
 
   // 플레이어 구현
-  fbxLoader.load("models/illhoon.fbx", function(object){
+  fbxLoader.load("/models/illhoon.FBX", function(object){
     console.log(object);
     player = object;
     player.scale.set(0.05, 0.05, 0.05);
@@ -890,7 +903,7 @@ function render(){
         localStorage.setItem("happinessData", sendHappinessData);
 
         state.hours+=2;
-        if((state.hours/12) > 1){
+        if((state.hours/12) >= 1){
           state.hours = 0;
           state.day++;
         }
