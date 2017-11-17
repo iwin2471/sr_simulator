@@ -133,6 +133,14 @@ document.addEventListener('keydown', function(event){
   }
 });
 $("#logout-btn").click(function(){
+  var form = document.createElement("form");
+
+  form.setAttribute("method", "post");
+  form.setAttribute("action", "/auth/logout");
+  
+  document.body.appendChild(form);
+
+  form.submit();
   alert("log out!");
 });
 
