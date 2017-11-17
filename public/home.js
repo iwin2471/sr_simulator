@@ -265,6 +265,12 @@ async function init(){
       }else if(state.statBarData.happiness <= 0){
         window.location.href = "badEnding(Happiness).html";
       }
+      localStorage.setItem("hours", state.hours);
+      localStorage.setItem("day", state.day);
+      localStorage.setItem("healthData", state.statBarData.health);
+      localStorage.setItem("codingData",   state.statBarData.coding);
+      localStorage.setItem("happinessData", state.statBarData.happiness);
+      localStorage.setItem("datingData", state.statBarData.dating);
     }else{
       state.statBarData.coding += Number(localStorage.getItem("codingData"));
       state.statBarData.dating += Number(localStorage.getItem("datingData"));
@@ -279,7 +285,7 @@ async function init(){
       }else if(state.statBarData.happiness <= 0){
         window.location.href = "badEnding(Happiness).html"
       }
-
+    }
       localStorage.setItem("realDatingData", state.statBarData.dating);
  });
 
