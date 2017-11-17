@@ -5,8 +5,8 @@ module.exports = (router, Users)=>{
   })
   .get('/state', async (req, res)=>{
     const state = await Users.findOne(req.session.passport.user, {_id: 0, state: 1});
-    console.log(state.state);
-    return res.status(200).json(state.state);
+    console.log(state);
+    return res.status(200).json(state);
   })
   .post('/state', async (req, res)=>{
     const state = req.body;
