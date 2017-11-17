@@ -4,8 +4,8 @@ module.exports = (router, Users)=>{
     return res.status(200).json(users);
   })
   .get('/state', async (req, res)=>{
-    const state = await Users.findOne(req.session.passport.user, {state: 1});
-    return res.status(200).json(state);
+    const state = await Users.findOne(req.session.passport.user, {_id: 0, state: 1});
+    return res.status(200).json(state.state);
   })
   .post('/state', async (req, res)=>{
     const state = req.body;
