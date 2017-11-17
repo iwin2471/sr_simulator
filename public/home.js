@@ -137,7 +137,7 @@ $("#logout-btn").click(function(){
 
   form.setAttribute("method", "post");
   form.setAttribute("action", "/auth/logout");
-  
+
   document.body.appendChild(form);
 
   form.submit();
@@ -159,6 +159,18 @@ function init(){
     localStorage.setItem("codingData", Number(localStorage.getItem("codingData"))+minus);
     localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+minus);
     localStorage.setItem("datingData", Number(localStorage.getItem("datingData"))+minus);
+    var update_state = await $.ajax({
+      method:"post",
+      data: state,
+      url:"http://iwin247.kr:4000/users/state",
+      success:function(data){
+        console.log(data.message);
+      },
+      error:function(){
+        alert("Server Error");
+      }
+    });
+    
     $(".sleep").fadeIn("slow", function(){
       setTimeout(function(){
         $(".sleep").fadeOut("slow", function(){

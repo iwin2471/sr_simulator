@@ -9,8 +9,11 @@ module.exports = (router, Users)=>{
   })
   .post('/state', async (req, res)=>{
     const state = req.body;
-    console.log(state);
     if(!state) return res.status(400).json({message: "param missing"});
+
+    var test = "state":{
+      state
+    };
     const update_result = await Users.update(req.session.passport.user, {$set: {state: state}});
 
     if(update_result) res.status(200).json({message: "done"});
