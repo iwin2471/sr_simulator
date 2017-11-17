@@ -159,6 +159,11 @@ async function init(){
     localStorage.setItem("codingData", Number(localStorage.getItem("codingData"))+minus);
     localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+minus);
     localStorage.setItem("datingData", Number(localStorage.getItem("datingData"))+minus);
+
+    state.statBarData.Number(localStorage.getItem("codingData"));
+    state.statBarData.dating += Number(localStorage.getItem("datingData"));
+    state.statBarData.health += Number(localStorage.getItem("healthData"));
+    state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
     var update_state = await $.ajax({
       method:"post",
       data: state,
@@ -170,7 +175,7 @@ async function init(){
         alert("Server Error");
       }
     });
-    
+
     $(".sleep").fadeIn("slow", function(){
       setTimeout(function(){
         $(".sleep").fadeOut("slow", function(){

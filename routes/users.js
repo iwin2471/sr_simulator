@@ -10,7 +10,7 @@ module.exports = (router, Users)=>{
   .post('/state', async (req, res)=>{
     const state = req.body;
     if(!state) return res.status(400).json({message: "param missing"});
-    console.log(state);
+    console.log(state.statBarData);
 
     var test = {
        "state":{
