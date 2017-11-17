@@ -5,6 +5,7 @@ module.exports = (router, Users)=>{
   })
   .get('/state', async (req, res)=>{
     const state = await Users.findOne(req.session.passport.user, {_id: 0, state: 1});
+    console.log(state.state);
     return res.status(200).json(state.state);
   })
   .post('/state', async (req, res)=>{
@@ -17,12 +18,12 @@ module.exports = (router, Users)=>{
            happiness: state.happiness,
            coding: state.coding,
            dating: state.dating,
-           health: state.health 
+           health: state.health
        }
     };
 
     console.log(test);
- 
+
     const update_result = await Users.update(req.session.passport.user, {$set: {state: test}});
 
     if(update_result) res.status(200).json({message: "done"});
