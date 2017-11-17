@@ -209,6 +209,7 @@ async function init(){
   // 1분이 지날때마다 한시간이 지나감
   startTime = setInterval(function(){
     state.hours++;
+    await axios.post('/users/hours', {"hours": hours})
     localStorage.setItem("hours", state.hours);
     console.log(state.hours);
     if(state.hours%12===0 && state.hours>0){
@@ -843,8 +844,11 @@ async function render(){
         firstVisitTennis = false;
         // 탁구 소요 시간 4시간 추가
         state.hours+=4;
+
         if((state.hours/12) > 1){
           state.hours = 12;
+        }else {
+          await axios.post('/users/hours', {"hours": hours});
         }
         localStorage.setItem("hours", state.hours);
         // document.querySelector(".Hour").textContent = hours+":00";
@@ -886,6 +890,8 @@ async function render(){
         if((state.hours/12) >= 1){
           state.hours = 0;
           state.day++;
+        }else {
+          await axios.post('/users/hours', {"hours": hours})
         }
         localStorage.setItem("hours", state.hours);
         localStorage.setItem("day", state.day);

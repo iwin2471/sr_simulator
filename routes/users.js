@@ -26,6 +26,11 @@ module.exports = (router, Users, passport)=>{
     else res.status(400).json({message: "somthing wrong"});
   })
 
+  .post('/hours', (req, res)=>{
+    const update_result = await Users.update(req.user, {$inc: {hours: req.body.hours}});
+    if(update_result) res.status(200).json({message: "done"});
+  })
+
   .post('/health', (req, res)=>{
     const update_result = await Users.update(req.user, {$inc: {state: {health: req.body.health}}});
     if(update_result) res.status(200).json({message: "done"});
