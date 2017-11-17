@@ -144,7 +144,7 @@ $("#logout-btn").click(function(){
   alert("log out!");
 });
 
-function init(){
+async function init(){
   // 시간 개념
   // 새로 고침 했을 시 바로 업데이트
   state.hours = Number(localStorage.getItem("hours"));
