@@ -150,12 +150,10 @@
     var scene = 1;
     var sendDatingData=0;
     console.log(localStorage.getItem("realDatingData"));
-
     function first(){
       sendDatingData += -48;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene13").css({"display": "none"});
       $("#scene13-1").css({"display": ""});
       scene=13;
@@ -166,12 +164,10 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     function second(){
       sendDatingData += 16;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene13").css({"display": "none"});
       $("#scene13-2").css({"display": ""});
       scene=13;
@@ -182,12 +178,10 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     function third(){
       sendDatingData += 0;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene13").css({"display": "none"});
       $("#scene13-3").css({"display": ""});
       scene=13;
@@ -198,12 +192,10 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     function fourth(){
       sendDatingData += -48;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene15").css({"display": "none"});
       $("#scene15-1").css({"display": ""});
       scene = 16;
@@ -214,12 +206,10 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     function fifth(){
       sendDatingData += 16;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene15").css({"display": "none"});
       $("#scene15-2").css({"display": ""});
       scene = 15;
@@ -230,12 +220,10 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     function sixth(){
       sendDatingData += 0;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
-
       $("#scene15").css({"display": "none"});
       $("#scene15-3").css({"display": ""});
       scene = 15;
@@ -246,7 +234,6 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-
     document.getElementById("clickArea").addEventListener("click", function(){
       //console.log(Number(localStorage.getItem("realDatingData"))+sendDatingData)
       if(Number(localStorage.getItem("realDatingData"))+sendDatingData <= 0){
