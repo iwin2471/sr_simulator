@@ -23,7 +23,7 @@ function startGame(){
   })
 }
 
-async function onEnter(e){
+function onEnter(e){
   if (e.keyCode == 13) {
     var inputText = document.getElementById('inputCode').value;
     // console.log(inputText);
@@ -62,8 +62,7 @@ async function onEnter(e){
         sendCodingData=-16;
       }
       // 서버에 sendCodingData값 전송 후 Coding 데이터에 값 추가하기
-      localStorage.setItem("codingData", sendCodingData);
-      await axios.post('/users/coding', {"coding": sendCodingData})
+      localStorage.setItem("codingData", Number(localStorage.getItem("codingData"))+sendCodingData);
 
       // 탁구 소요시간 3시간 추가
       state.hours+=3;
@@ -97,3 +96,4 @@ function resetGame(){
   $(".timer").css({"top": "48%", "left": "50%"});
   clearInterval(startTimer)
 }
+

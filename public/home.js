@@ -6,7 +6,7 @@ var action;
 var actionStop = false;
 
 var state = {
-  day: 1,
+  day: 0,
   hours: 0,
   statBarData: {
     happiness: 80,
@@ -15,13 +15,6 @@ var state = {
     health: 80
   }
 };
-
-async function get_info(){
- var data = await axios.get('/users/state');
- data = data.data;
- if(data) statusControl(data);
-}
-get_info();
 
 function statusControl(stateFromServer){
   state.day = stateFromServer.day;
@@ -125,6 +118,8 @@ var onlyOnce=0;
 
 var clickPoint;
 
+var gameAudio = document.getElementById("audio");
+
 // var disX=null, disZ=null;
 var cnt=1;
 document.addEventListener('contextmenu', onMouseClick, false);
@@ -140,20 +135,11 @@ document.addEventListener('keydown', function(event){
   }
 });
 $("#logout-btn").click(function(){
-  var form = document.createElement("form");
-
-  form.setAttribute("method", "post");
-  form.setAttribute("action", "/auth/logout");
-
-  document.body.appendChild(form);
-
-  form.submit();
-  localStorage.clear();
   alert("log out!");
 });
 
-async function init(){
-  await get_info();
+function init(){
+  gameAudio.play();
   // 시간 개념
   // 새로 고침 했을 시 바로 업데이트
   state.hours = Number(localStorage.getItem("hours"));
@@ -161,42 +147,22 @@ async function init(){
   state.day = Number(localStorage.getItem("day"));
   console.log(state.day+1);
   if(state.hours%12===0 && state.hours>0){
-    state.day += 1;
-    state.hours=0;
+    state.day++;
     localStorage.setItem("day", state.day);
     var minus = -16;
     localStorage.setItem("healthData", Number(localStorage.getItem("healthData"))+minus);
     localStorage.setItem("codingData", Number(localStorage.getItem("codingData"))+minus);
     localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+minus);
     localStorage.setItem("datingData", Number(localStorage.getItem("datingData"))+minus);
-
-    state.statBarData.coding += Number(localStorage.getItem("codingData"));
-    state.statBarData.dating += Number(localStorage.getItem("datingData"));
-    state.statBarData.health += Number(localStorage.getItem("healthData"));
-    state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
-    await axios.post('/users/state', {day: state.day, "hours": state.hours, "happiness":state.statBarData.happiness, "coding": state.statBarData.coding, "dating": state.statBarData.dating, "health": state.statBarData.health})
-
     $(".sleep").fadeIn("slow", function(){
       setTimeout(function(){
         $(".sleep").fadeOut("slow", function(){
-          try{
-            player.position.set(-20, 4, 0);
-            playerColl.position.set(-20, 4, 0);
-            fullPlayer.position.set(-20, 4, 0);
-            clickedPos.set(-20, 4, 0);
-            localStorage.setItem("playerX", player.position.x);
-            localStorage.setItem("playerY", player.position.y);
-            localStorage.setItem("playerZ", player.position.z);
-          }catch(e){
-
-          }
         });
       }, 1000);
     });
     state.hours=0;
-    console.log(state.day);
     localStorage.setItem("hours", state.hours);
-    window.location.href = "home.html";
+    // window.location.href = "home.html";
   }
   document.querySelector(".Hour").textContent = state.hours+":00";
   document.querySelector("#dateText").textContent="Day "+(state.day+1);
@@ -209,7 +175,6 @@ async function init(){
   // 1분이 지날때마다 한시간이 지나감
   startTime = setInterval(function(){
     state.hours++;
-    await axios.post('/users/hours', {"hours": hours})
     localStorage.setItem("hours", state.hours);
     console.log(state.hours);
     if(state.hours%12===0 && state.hours>0){
@@ -223,23 +188,12 @@ async function init(){
       $(".sleep").fadeIn("slow", function(){
         setTimeout(function(){
           $(".sleep").fadeOut("slow", function(){
-            try{
-              player.position.set(-20, 4, 0);
-              playerColl.position.set(-20, 4, 0);
-              fullPlayer.position.set(-20, 4, 0);
-              clickedPos.set(-20, 4, 0);
-              localStorage.setItem("playerX", player.position.x);
-              localStorage.setItem("playerY", player.position.y);
-              localStorage.setItem("playerZ", player.position.z);
-            }catch(e){
-
-            }
           });
         }, 1000);
       });
       state.hours=0;
       localStorage.setItem("hours", state.hours);
-      window.location.href="home.html";
+      // window.location.href="home.html";
     }
     document.querySelector(".Hour").textContent = state.hours+":00";
     document.querySelector("#dateText").textContent="Day "+(state.day+1);
@@ -250,21 +204,21 @@ async function init(){
 
   // 서버로부터 플레이어의 스탯 가져오기
   // 서버로부터 데이터 받고 아래와 같이 스탯바에 적용
-      state.statBarData.coding += Number(localStorage.getItem("codingData"));
-      state.statBarData.dating += Number(localStorage.getItem("datingData"));
-      state.statBarData.health += Number(localStorage.getItem("healthData"));
-      state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
-      if(state.statBarData.coding <= 0){
-        window.location.href = "badEnding(Coding).html"
-      }else if(state.statBarData.dating <= 0){
-        window.location.href = "badEnding(Dating).html"
-      }else if(state.statBarData.health <= 0){
-        window.location.href = "badEnding(Health).html"
-      }else if(state.statBarData.happiness <= 0){
-        window.location.href = "badEnding(Happiness).html"
-      }
-      localStorage.setItem("realDatingData", state.statBarData.dating);
+  state.statBarData.coding += Number(localStorage.getItem("codingData"));
+  state.statBarData.dating += Number(localStorage.getItem("datingData"));
+  state.statBarData.health += Number(localStorage.getItem("healthData"));
+  state.statBarData.happiness += Number(localStorage.getItem("happinessData"));
+  if(state.statBarData.coding <= 0){
+    window.location.href = "badEnding(Coding).html"
+  }else if(state.statBarData.dating <= 0){
+    window.location.href = "badEnding(Dating).html"
+  }else if(state.statBarData.health <= 0){
+    window.location.href = "badEnding(Health).html"
+  }else if(state.statBarData.happiness <= 0){
+    window.location.href = "badEnding(Happiness).html"
+  }
 
+  localStorage.setItem("realDatingData", state.statBarData.dating);
 
   console.log(state.statBarData.coding);
   console.log(state.statBarData.dating);
@@ -696,7 +650,7 @@ async function init(){
   render();
 }
 
-async function render(){
+function render(){
 
   try{
     if(action.time >= 3.3){
@@ -844,18 +798,24 @@ async function render(){
         firstVisitTennis = false;
         // 탁구 소요 시간 4시간 추가
         state.hours+=4;
-
         if((state.hours/12) > 1){
           state.hours = 12;
-        }else {
-          await axios.post('/users/hours', {"hours": hours});
+          player.position.set(-20, 4, 0);
+          playerColl.position.set(-20, 4, 0);
+          fullPlayer.position.set(-20, 4, 0);
+          clickedPos.set(-20, 4, 0);
+          localStorage.setItem("playerX", player.position.x);
+          localStorage.setItem("playerY", player.position.y);
+          localStorage.setItem("playerZ", player.position.z);
+        }else{
+        	localStorage.setItem("playerX", playerPos.x);
+        	localStorage.setItem("playerY", playerPos.y);
+        	localStorage.setItem("playerZ", playerPos.z);
         }
         localStorage.setItem("hours", state.hours);
         // document.querySelector(".Hour").textContent = hours+":00";
         // document.querySelector("#dateText").textContent="Day "+(day+1);
-        localStorage.setItem("playerX", playerPos.x);
-        localStorage.setItem("playerY", playerPos.y);
-        localStorage.setItem("playerZ", playerPos.z);
+    
         window.location.href = "tableTennis.html";
     }else if(playerPos.distanceTo(tableTennis.position) >= 80){
       firstVisitTennis = true;
@@ -880,18 +840,32 @@ async function render(){
         });
 
         var sendHappinessData = 16;
-        await axios.post('/users/happiness', {"happiness": sendHappinessData})
         // 서버
-        state.statBarData.happiness+=sendHappinessData;
+        localStorage.setItem("happinessData", Number(localStorage.getItem("happinessData"))+sendHappinessData);
+        state.statBarData.happiness += sendHappinessData;
         $(".Happiness>.gage").css({"width": state.statBarData.happiness+"px"});
-        localStorage.setItem("happinessData", sendHappinessData);
 
         state.hours+=2;
         if((state.hours/12) >= 1){
           state.hours = 0;
           state.day++;
-        }else {
-          await axios.post('/users/hours', {"hours": hours})
+          $(".sleep").fadeIn("slow", function(){
+            setTimeout(function(){
+              $(".sleep").fadeOut("slow", function(){
+                try{
+                  player.position.set(-20, 4, 0);
+                  playerColl.position.set(-20, 4, 0);
+                  fullPlayer.position.set(-20, 4, 0);
+                  clickedPos.set(-20, 4, 0);
+                  localStorage.setItem("playerX", player.position.x);
+                  localStorage.setItem("playerY", player.position.y);
+                  localStorage.setItem("playerZ", player.position.z);
+                }catch(e){
+
+                }
+              });
+            }, 1000);
+          });
         }
         localStorage.setItem("hours", state.hours);
         localStorage.setItem("day", state.day);

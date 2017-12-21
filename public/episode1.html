@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>SRS Episode 1</title>
     <link rel="stylesheet" href="interactiveFiction.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.2.1.min.js"
       integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -151,9 +150,8 @@
     var scene = 1;
     var sendDatingData=0;
     console.log(localStorage.getItem("realDatingData"));
-    async function first(){
+    function first(){
       sendDatingData += -48;
-      await axios.post('/users/dating', {"dating": sendDatingData})
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
       $("#scene13").css({"display": "none"});
@@ -166,9 +164,8 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-    async function second(){
+    function second(){
       sendDatingData += 16;
-      await axios.post('/users/dating', {"dating": sendDatingData})
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
       $("#scene13").css({"display": "none"});
@@ -181,7 +178,7 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-    async function third(){
+    function third(){
       sendDatingData += 0;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
@@ -195,9 +192,8 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-  async  function fourth(){
+    function fourth(){
       sendDatingData += -48;
-      await axios.post('/users/dating', {"dating": sendDatingData})
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
       $("#scene15").css({"display": "none"});
@@ -210,9 +206,8 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-  async  function fifth(){
+    function fifth(){
       sendDatingData += 16;
-      await axios.post('/users/dating', {"dating": sendDatingData})
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
       $("#scene15").css({"display": "none"});
@@ -225,7 +220,7 @@
         $("#clickArea").removeAttr("disabled");
       }
     }
-  async  function sixth(){
+    function sixth(){
       sendDatingData += 0;
       // 서버로 데이터 전송
       localStorage.setItem("datingData", sendDatingData);
