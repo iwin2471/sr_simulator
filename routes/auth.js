@@ -1,10 +1,9 @@
 module.exports = (router, Users, passport) =>{
   router.get('/signin', async (req,res)=>{
-    res.redirect('/login.html');
+    return res.redirect('/login.html');
   });
   router.post('/signup', async (req, res) => {
       const data = req.body;
-      console.log(data);
       const new_user = new Users(data);
       try{
         var result = await new_user.save();
@@ -13,11 +12,11 @@ module.exports = (router, Users, passport) =>{
         if(e instanceof ValidationError) return res.status(400).json({message: e.message});
         if(e instanceof paramsError) return res.status(400).json({message: e.message});
       }
-      res.redirect('/');
+     return res.redirect('/');
   })
 
-  .post('/signin', passport.authenticate('local'), (req,res)=>{
-     res.redirect('/'); 
+  .post('/signin', passport.authenticate('local', {successRedirect: '/'}), (req,res)=>{
+     return res.redirect('/');
   })
 
   .get('/auto/:token', (req, res)=>{
@@ -34,6 +33,11 @@ module.exports = (router, Users, passport) =>{
        return res.status(400).send("param missing or null");
      }
   })
+
+  .post('/logout', (req, res)=>{
+    req.logout();
+    return res.redirect('/');
+  });
 
   return router;
 }

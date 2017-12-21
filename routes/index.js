@@ -1,6 +1,6 @@
 module.exports = (router)=>{
   router.get('/',isAuth, async function(req, res, next) {
-    await res.render('home');
+    await res.redirect('/home.html');
   })
 
   return router;
